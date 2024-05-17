@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Phaser Game</title>
+    <script src="./phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Configuración del juego
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            backgroundColor: '#2d2d2d',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        let player;
+        let cursors;
+
+        // Pre-carga de recursos (no se necesitan en este ejemplo)
+        function preload() {}
+
+        // Creación de la escena
+        function create() {
+            // Crear un gráfico para el jugador
+            player = this.add.graphics({ fillStyle: { color: 0xff0000 } });
+            player.fillRect(0, 0, 50, 50);
+
+            // Habilitar física en el gráfico del jugador
+            this.physics.add.existing(player);
+            player.body.setCollideWorldBounds(true);
+
+            // Crear controles de cursor
+            cursors = this.input.keyboard.createCursorKeys();
+        }
+
+        // Actualización de la escena
+        function update() {
+            player.body.setVelocity(0);
+
+            if (cursors.left.isDown) {
+                player.body.setVelocityX(-160);
+            } else if (cursors.right.isDown) {
+                player.body.setVelocityX(160);
+            }
+
+            if (cursors.up.isDown) {
+                player.body.setVelocityY(-160);
+            } else if (cursors.down.isDown) {
+                player.body.setVelocityY(160);
+            }
+        }
+    </script>
+</body>
+</html>

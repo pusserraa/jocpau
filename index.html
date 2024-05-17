@@ -40,14 +40,17 @@
 
         let player;
         let cursors;
+        let spaceBar;
+        let colorPlayer;
 
         // Pre-carga de recursos (no se necesitan en este ejemplo)
         function preload() {}
 
         // Creación de la escena
         function create() {
+            colorPlayer = 0xff0000;
             // Crear un gráfico para el jugador
-            player = this.add.graphics({ fillStyle: { color: 0xff0000 } });
+            player = this.add.graphics({ fillStyle: { color: colorPlayer } });
             player.fillRect(0, 0, 50, 50);
 
             // Habilitar física en el gráfico del jugador
@@ -56,6 +59,9 @@
 
             // Crear controles de cursor
             cursors = this.input.keyboard.createCursorKeys();
+
+            // Inicializar Barra Espaciadora
+            spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         }
 
         // Actualización de la escena
@@ -72,6 +78,13 @@
                 player.body.setVelocityY(-160);
             } else if (cursors.down.isDown) {
                 player.body.setVelocityY(160);
+            }
+
+            if ( Phaser.Input.Keyboard.JustDown(spaceBar)) {
+                player.clear();
+                colorPlayer = ( colorPlayer === 0xff0000 ) ? 0x0000ff : 0xff0000 ;
+                player.fillStyle(colorPlayer, 1.0);
+                player.fillRect(0, 0, 50, 50);
             }
         }
     </script>
